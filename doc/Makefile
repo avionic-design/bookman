@@ -4,17 +4,23 @@
 UID := $(shell id -u)
 SESSION := $(shell uuidgen)
 
-all: mdbook
+all: dot-files mdbook
 
 init: mdbook-init
 
 read: mdbook-read
 
+dot-files:
+	make -C dot/ all
+
 mdbook:
-	docker run -it --user $(UID):$(UID) --rm             \
-		--volume "$(realpath ./book/)":"/usr/src/":Z \
-		--name "mdbook-$(SESSION)" "mdbook:0.4.12"   \
+	mkdir -p shared
+	docker run -it --user $(UID):$(UID) --rm                     \
+		--volume "$(realpath ./book/)":"/usr/src/":Z         \
+		--volume "$(realpath ./shared/)":"/usr/src/shared":Z \
+		--name "mdbook-$(SESSION)" "mdbook:0.4.12"           \
 		build --dest-dir "html"
+	cp -R shared book/html/shared
 
 mdbook-init:
 	docker run -it --user $(UID):$(UID) --rm             \
@@ -30,3 +36,5 @@ clean:
 		--volume "$(realpath ./book/)":"/usr/src/":Z \
 		--name "mdbook-$(SESSION)" "mdbook:0.4.12"   \
 		clean  --dest-dir "html"
+
+	make -C dot/ clean
