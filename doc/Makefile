@@ -1,10 +1,10 @@
 .DEFAULT_GOAL := all
-.PHONY := all init clean read mdbook mdbook-init mdbook-read
+.PHONY := all init clean read mdbook mdbook-init mdbook-read drawio-files
 
 UID := $(shell id -u)
 SESSION := $(shell uuidgen)
 
-all: dot-files mdbook
+all: dot-files drawio-files mdbook
 
 init: server-stop mdbook-init
 
@@ -14,12 +14,15 @@ submodule: server-stop
 	mkdir -p ../../doc/shared
 	mkdir -p ../../doc/book
 	mkdir -p ../../doc/dot/src
+	mkdir -p ../../doc/drawio/src
 	rm -f shared
 	rm -f book
 	rm -f dot/src
-	rm -rf shared   && ln -s ../../doc/shared     shared
-	rm -rf book     && ln -s ../../doc/book       book
-	rm -rf dot/src  && ln -s ../../../doc/dot/src dot/src
+	rm -f drawio/src
+	rm -rf shared     && ln -s ../../doc/shared        shared
+	rm -rf book       && ln -s ../../doc/book          book
+	rm -rf dot/src    && ln -s ../../../doc/dot/src    dot/src
+	rm -rf drawio/src && ln -s ../../../doc/drawio/src drawio/src
 	rm -f shared/README.md
 	-cp -f ../../README.md shared/README.md
 
@@ -27,12 +30,15 @@ self: server-stop
 	mkdir -p ../selfdoc/shared
 	mkdir -p ../selfdoc/book
 	mkdir -p ../selfdoc/dot/src
+	mkdir -p ../selfdoc/drawio/src
 	rm -f shared
 	rm -f book
 	rm -f dot/src
-	rm -rf shared   && ln -s ../selfdoc/shared     shared
-	rm -rf book     && ln -s ../selfdoc/book       book
-	rm -rf dot/src  && ln -s ../../selfdoc/dot/src dot/src
+	rm -f drawio/src
+	rm -rf shared     && ln -s ../selfdoc/shared        shared
+	rm -rf book       && ln -s ../selfdoc/book          book
+	rm -rf dot/src    && ln -s ../../selfdoc/dot/src    dot/src
+	rm -rf drawio/src && ln -s ../../selfdoc/drawio/src drawio/src
 	rm -f shared/README.md && cp ../README.md shared/README.md
 
 server-stop:
@@ -47,6 +53,10 @@ server: server-stop mdbook
 dot-files:
 	mkdir -p dot/src
 	make -C dot/ all
+
+drawio-files:
+	mkdir -p drawio/src
+	make -C drawio/ all
 
 mdbook-dirs:
 	mkdir -p shared
