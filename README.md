@@ -70,3 +70,10 @@ open the `index.html` with your browser or simply run the `read` target.
 ```bash
 make -C bookman/ read
 ```
+
+## Build Self Documentaion
+To build the selfdocs first setup Bookman for selfdoc building by running the `self` target.
+Then build and read the same way as in `submodule` config.
+```bash
+make -C bookman/ self all read
+```
