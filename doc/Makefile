@@ -20,7 +20,8 @@ submodule:
 	rm -rf shared   && ln -s ../../doc/shared     shared
 	rm -rf book     && ln -s ../../doc/book       book
 	rm -rf dot/src  && ln -s ../../../doc/dot/src dot/src
-	rm -f shared/README.md && cp ../README.md shared/README.md
+	rm -f shared/README.md
+	-cp -f ../../README.md shared/README.md
 
 self:
 	mkdir -p ../selfdoc/shared
