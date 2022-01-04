@@ -1,8 +1,11 @@
 .DEFAULT_GOAL := all
 .PHONY := all clean veryclean init read container
 
-all: container
+all: binary container
 	make -C doc/ all
+
+binary:
+	make -C bin/ all
 
 container:
 	make -C docker/ all
