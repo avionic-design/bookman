@@ -6,7 +6,7 @@ SRC = $(shell find src/ -name "*.dot" -print | sed 's#.dot#.svg#g' | sed 's#^src
 all: $(SRC)
 	mkdir -p ../shared/dot
 	mkdir -p svg
-	cp svg/* ../shared/dot/
+	find . -name "*.svg" -exec cp {} ../shared/dot/ \;
 
 %.svg:
 	mkdir -p svg

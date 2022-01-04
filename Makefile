@@ -13,6 +13,9 @@ read:
 submodule:
 	make -C doc/ submodule
 
+self:
+	make -C doc/ self
+
 init: container
 	make -C doc/ init
 

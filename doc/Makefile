@@ -20,6 +20,19 @@ submodule:
 	rm -rf shared   && ln -s ../../doc/shared     shared
 	rm -rf book     && ln -s ../../doc/book       book
 	rm -rf dot/src  && ln -s ../../../doc/dot/src dot/src
+	rm -f shared/README.md && cp ../README.md shared/README.md
+
+self:
+	mkdir -p ../selfdoc/shared
+	mkdir -p ../selfdoc/book
+	mkdir -p ../selfdoc/dot/src
+	rm -f shared
+	rm -f book
+	rm -f dot/src
+	rm -rf shared   && ln -s ../selfdoc/shared     shared
+	rm -rf book     && ln -s ../selfdoc/book       book
+	rm -rf dot/src  && ln -s ../../selfdoc/dot/src dot/src
+	rm -f shared/README.md && cp ../README.md shared/README.md
 
 dot-files:
 	mkdir -p dot/src
@@ -54,3 +67,4 @@ clean: mdbook-dirs
 		--name "mdbook-$(SESSION)" "mdbook:0.4.12"   \
 		clean  --dest-dir "html"
 	make -C dot/ clean
+	rm -f shared/README.md
