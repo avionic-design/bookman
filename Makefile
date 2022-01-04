@@ -10,6 +10,9 @@ container:
 read:
 	make -C doc/ read
 
+submodule:
+	make -C doc/ submodule
+
 init: container
 	make -C doc/ init
 

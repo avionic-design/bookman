@@ -10,19 +10,36 @@ init: mdbook-init
 
 read: mdbook-read
 
+submodule:
+	mkdir -p ../../doc/shared
+	mkdir -p ../../doc/book
+	mkdir -p ../../doc/dot/src
+	rm -f shared
+	rm -f book
+	rm -f dot/src
+	rm -rf shared   && ln -s ../../doc/shared     shared
+	rm -rf book     && ln -s ../../doc/book       book
+	rm -rf dot/src  && ln -s ../../../doc/dot/src dot/src
+
 dot-files:
+	mkdir -p dot/src
 	make -C dot/ all
 
-mdbook:
+mdbook-dirs:
 	mkdir -p shared
+	mkdir -p book/src
+	mkdir -p book/html
+
+mdbook: mdbook-dirs
 	docker run -it --user $(UID):$(UID) --rm                     \
 		--volume "$(realpath ./book/)":"/usr/src/":Z         \
 		--volume "$(realpath ./shared/)":"/usr/src/shared":Z \
 		--name "mdbook-$(SESSION)" "mdbook:0.4.12"           \
 		build --dest-dir "html"
-	cp -R shared book/html/shared
+	mkdir -p book/html/shared
+	cp -R shared/* book/html/shared/
 
-mdbook-init:
+mdbook-init: mdbook-dirs
 	docker run -it --user $(UID):$(UID) --rm             \
 		--volume "$(realpath ./book/)":"/usr/src/":Z \
 		--name "mdbook-$(SESSION)" "mdbook:0.4.12"   \
@@ -31,10 +48,9 @@ mdbook-init:
 mdbook-read: mdbook
 	xdg-open book/html/index.html
 
-clean:
+clean: mdbook-dirs
 	docker run -it --user $(UID):$(UID) --rm             \
 		--volume "$(realpath ./book/)":"/usr/src/":Z \
 		--name "mdbook-$(SESSION)" "mdbook:0.4.12"   \
 		clean  --dest-dir "html"
-
 	make -C dot/ clean
