@@ -26,8 +26,12 @@ serve: container
 halt: container
 	make -C doc/ server-stop
 
+pdf: serve
+	wkhtmltopdf http://0.0.0.0:6600/ doc/book/book.pdf
+
 clean:
 	make -C doc/ clean
+	rm -f doc/book/book.pdf
 
 veryclean: clean
 	make -C docker/ clean

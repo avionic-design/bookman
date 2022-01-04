@@ -77,3 +77,22 @@ Then build and read the same way as in `submodule` config.
 ```bash
 make -C bookman/ self all read
 ```
+
+## Webserver
+The webserver hosts the docs at http://0.0.0.0:6600/.
+To start the webserver tse the `serve` target. To stop the server use the `halt` target.
+```bash
+make -C bookman/ submodule serve
+make -C bookman/ submodule halt
+```
+
+## PDF
+To create the PDF docs wkhtmltopdf is used, therefore the webserver has to be run
+(this happens automatically).
+
+```bash
+make -C bookman/ submodule pdf
+make -C bookman/ self pdf 
+```
+
+The PDF `book.pdf` is created in the `doc/book/` folder or `bookman/selfdoc/book/` if run in self config.
