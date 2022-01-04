@@ -6,11 +6,11 @@ SESSION := $(shell uuidgen)
 
 all: dot-files mdbook
 
-init: mdbook-init
+init: server-stop mdbook-init
 
 read: mdbook-read
 
-submodule:
+submodule: server-stop
 	mkdir -p ../../doc/shared
 	mkdir -p ../../doc/book
 	mkdir -p ../../doc/dot/src
@@ -23,7 +23,7 @@ submodule:
 	rm -f shared/README.md
 	-cp -f ../../README.md shared/README.md
 
-self:
+self: server-stop
 	mkdir -p ../selfdoc/shared
 	mkdir -p ../selfdoc/book
 	mkdir -p ../selfdoc/dot/src
@@ -35,6 +35,15 @@ self:
 	rm -rf dot/src  && ln -s ../../selfdoc/dot/src dot/src
 	rm -f shared/README.md && cp ../README.md shared/README.md
 
+server-stop:
+	-docker kill "darkhttpd-bookman"
+	-docker rm "darkhttpd-bookman"
+
+server: server-stop mdbook
+	docker run -td --user $(UID):$(UID) -p 6600:6600             \
+                --volume "$(realpath ./book/html)":"/home/www/":Z    \
+                --name "darkhttpd-bookman" "darkhttpd:latest"
+
 dot-files:
 	mkdir -p dot/src
 	make -C dot/ all
@@ -44,7 +53,7 @@ mdbook-dirs:
 	mkdir -p book/src
 	mkdir -p book/html
 
-mdbook: mdbook-dirs
+mdbook: server-stop mdbook-dirs
 	docker run -it --user $(UID):$(UID) --rm                     \
 		--volume "$(realpath ./book/)":"/usr/src/":Z         \
 		--volume "$(realpath ./shared/)":"/usr/src/shared":Z \
@@ -62,7 +71,7 @@ mdbook-init: mdbook-dirs
 mdbook-read: mdbook
 	xdg-open book/html/index.html
 
-clean: mdbook-dirs
+clean: server-stop mdbook-dirs
 	docker run -it --user $(UID):$(UID) --rm             \
 		--volume "$(realpath ./book/)":"/usr/src/":Z \
 		--name "mdbook-$(SESSION)" "mdbook:0.4.12"   \

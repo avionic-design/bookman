@@ -19,6 +19,13 @@ self:
 init: container
 	make -C doc/ init
 
+serve: container
+	make -C doc/ all
+	make -C doc/ server
+
+halt: container
+	make -C doc/ server-stop
+
 clean:
 	make -C doc/ clean
 
