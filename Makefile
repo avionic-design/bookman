@@ -1,8 +1,12 @@
 .DEFAULT_GOAL := all
 .PHONY := all clean veryclean init read container
 
-all: binary container
+all: subs binary container
 	make -C doc/ all
+
+subs:
+	git submodule init
+	git submodule update
 
 binary:
 	make -C bin/ all

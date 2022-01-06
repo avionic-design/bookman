@@ -1,0 +1,3 @@
+[submodule "bin/shdoc"]
+	path = bin/shdoc
+	url = git@github.com:avionic-design/shdoc.git
