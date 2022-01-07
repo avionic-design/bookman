@@ -1,4 +1,11 @@
 #!/bin/bash
+# @file index_parser
+# @brief A parser that parses .list files.
+# @description
+#  A parser that parses .list files.
+#  It outputs writes the resolved absolut path in ervery line of
+#  the .list file and the target .md file seperated by a new line
+#  to stdout.
 
 SOURCES_PATH=$(realpath $(readlink -e ${1}))
 BASE_PATH=$(realpath $(readlink -e ${SOURCES_PATH})/../../)
