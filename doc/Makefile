@@ -83,7 +83,8 @@ mdbook-init: mdbook-dirs
 		init
 
 shdoc:
-	rm -f shared/sources.md
+	rm -rf shared/shdoc
+	mkdir -p shared/shdoc
 	../bin/index_parser.sh sources/ | xargs -l2 ../bin/run_shdoc.sh
 
 mdbook-read: mdbook
@@ -96,4 +97,4 @@ clean: server-stop mdbook-dirs
 		clean  --dest-dir "html"
 	make -C dot/ clean
 	rm -f shared/README.md
-	rm -f shared/sources.md
+	rm -rf shared/shdoc
