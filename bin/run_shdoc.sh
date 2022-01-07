@@ -27,6 +27,8 @@ fi
 
 if [ -f "${1}" ]
 then
+	echo "${1}" | grep -iE "[.]sh$" > /dev/null || exit 0
+
 	${BASE_PATH}/shdoc/shdoc ${1} >> ${SHDOC_PATH}/${2}
 	exit 0
 fi
