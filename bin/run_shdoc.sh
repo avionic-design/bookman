@@ -1,4 +1,14 @@
-#/bin/bash
+#!/bin/bash
+# @file run_shdoc
+# @brief A helper to run shdoc and write its output to the correct .md file.
+# @description
+#  This tool runs shdoc either for single files or recursive directories
+#  and writes the output to the correct .md file.
+#  It is designed to be used with the index_parser.
+#  Example:
+#  ```
+#  index_parser.sh a_dir_with_lists/ | xargs -l2 run_shdoc.sh
+#  ```
 
 BASE_PATH=$(realpath $(dirname ${0}))
 
