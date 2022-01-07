@@ -84,7 +84,7 @@ mdbook-init: mdbook-dirs
 
 shdoc:
 	rm -f shared/sources.md
-	../bin/index_parser.sh sources/ | xargs -l1 ../bin/run_shdoc.sh
+	../bin/index_parser.sh sources/ | xargs -l2 ../bin/run_shdoc.sh
 
 mdbook-read: mdbook
 	xdg-open book/html/index.html

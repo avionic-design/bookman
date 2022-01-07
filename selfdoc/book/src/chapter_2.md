@@ -1,1 +1,1 @@
-{{#include ../shared/sources.md}}
+{{#include ../shared/shdoc/bash_src.md}}

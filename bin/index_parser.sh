@@ -7,6 +7,7 @@ print_path_lines() {
 	cat ${1} | while read -r path
 	do
 		echo $(realpath ${BASE_PATH}/${path})
+		echo $(basename ${1}) | sed 's/[.]list/.md/g'
 	done
 }
 
