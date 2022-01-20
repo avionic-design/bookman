@@ -74,7 +74,7 @@ mdbook: server-stop mdbook-dirs
 		--name "mdbook-$(SESSION)" "mdbook:0.4.12"           \
 		build --dest-dir "html"
 	mkdir -p book/html/shared
-	cp -R shared/* book/html/shared/
+	-cp -R shared/* book/html/shared/
 
 mdbook-init: mdbook-dirs
 	docker run -it --user $(UID):$(UID) --rm             \
