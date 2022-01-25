@@ -13,7 +13,7 @@ all: $(SRC)
 	dot -Tsvg $(shell echo $@ | sed 's/.svg/.dot/g' | sed 's/^svg/src/g') -o $@
 
 clean:
-	rm -r ../shared/dot
-	rm -r svg
+	rm -rf ../shared/dot
+	rm -rf svg
 	mkdir -p svg
 	mkdir -p ../shared/dot
